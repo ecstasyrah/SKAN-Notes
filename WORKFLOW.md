@@ -401,9 +401,9 @@ status=sent
 ```bash
 cat /etc/passwd
 ```
+## 12. Connect to outside mail
 
 ---
-
 # Configuration Summary
 
 ## Windows
@@ -462,3 +462,5 @@ Reference Contact:
 ```
 09756745363
 ```
+
+Ubuntu 
