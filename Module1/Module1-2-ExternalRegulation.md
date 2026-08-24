@@ -1,6 +1,6 @@
 # External Regulation
 
-## 1. Why External Regulation Matters
+## Why External Regulation Matters
 
 An organization's **risk assessment** helps determine which technical security controls it needs.
 
@@ -16,7 +16,7 @@ Organizations must therefore consider external requirements when deciding how to
 
 ---
 
-# 2. Laws and Regulations
+# Laws and Regulations
 
 Organizations already need to understand laws and regulations related to their normal business activities, such as:
 
@@ -32,7 +32,7 @@ These requirements are based on the risks that the **legislative body** believes
 
 ---
 
-# 3. What Is a Legislative Body?
+# What Is a Legislative Body?
 
 A **legislative body** is a governmental organization that has the authority to create laws that an organization is required to follow.
 
@@ -45,7 +45,7 @@ It can exist at different levels:
 
 ---
 
-# 4. Three Categories of Information Security Laws and Regulations
+# Three Categories of Information Security Laws and Regulations
 
 The discussion identifies three main areas where information security laws and regulations can apply.
 
@@ -73,7 +73,7 @@ The **U.S. Presidential Executive Order on Improving the Nation's Cybersecurity*
 
 ---
 
-# 5. Data Protection and Privacy
+## 2. Data Protection and Privacy
 
 The second area is:
 
@@ -99,7 +99,7 @@ Examples mentioned in the discussion include:
 
 ---
 
-# 6. Cybersecurity of Physical Devices
+## 3. Cybersecurity of Physical Devices
 
 The third area concerns the cybersecurity of **physical devices**.
 
@@ -115,7 +115,7 @@ also have developing laws concerning the cybersecurity of **IoT devices**.
 
 ---
 
-# 7. Laws and Regulations Can Have Different Names
+# Laws and Regulations Can Have Different Names
 
 The speaker uses the phrase **laws and regulations** as a general term for things that an organization is legally required to comply with.
 
@@ -125,7 +125,7 @@ Therefore, if an organization needs to determine exactly what it is legally requ
 
 ---
 
-# 8. Laws Can Be Vague About Information Security
+# Laws Can Be Vague About Information Security
 
 Information security laws are often relatively general.
 
@@ -148,7 +148,7 @@ Because of this, laws often provide general requirements rather than detailed te
 
 ---
 
-# 9. Role of Regulators
+# Role of Regulators
 
 A **regulator** may be responsible for enforcing a law.
 
@@ -162,7 +162,7 @@ These can help organizations understand what they need to do to meet the more ge
 
 ---
 
-# 10. Compliance — The "C" in GRC
+# Compliance — The "C" in GRC
 
 This is where we meet the **C in GRC: Compliance**.
 
@@ -180,7 +180,7 @@ An organization may need to consider a combination of:
 
 ---
 
-# 11. Role of the Compliance Manager
+# Role of the Compliance Manager
 
 The **compliance manager** works closely with the **legal team**.
 
@@ -194,11 +194,11 @@ They need to understand:
 
 ---
 
-# 12. Comparing Requirements With Existing Controls
+# Comparing Requirements with Existing Controls
 
 After identifying the external requirements, the compliance manager considers the organization's existing information security controls.
 
-These controls are already defined or required by the organization's:
+These controls are already defined or required by the organizations:
 
 **Information Security Policy**
 
@@ -210,7 +210,7 @@ If the organization is not compliant, changes to the information security policy
 
 ---
 
-# 13. External Standards and Frameworks
+# External Standards and Frameworks
 
 Regulators may sometimes refer organizations to external standards and frameworks.
 
@@ -226,7 +226,7 @@ These standards and frameworks can provide a baseline for information security.
 
 ---
 
-# 14. Relationship Between Risk and Compliance
+# Relationship Between Risk and Compliance
 
 Sometimes an organization may already have a **risk-based decision** to adopt a particular standard or framework.
 
@@ -247,7 +247,7 @@ For example, if an organization has already chosen a widely used cybersecurity f
 
 ---
 
-# 15. Legal Defensibility
+# Legal Defensibility
 
 Internal legal departments may also use widely accepted standards or frameworks as a baseline.
 
