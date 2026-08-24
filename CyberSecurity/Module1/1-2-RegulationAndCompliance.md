@@ -586,14 +586,14 @@ How likely is the compliance problem to result in consequences?
 
 The speaker explains that likelihood depends on two things:
 
-- **a. Degree of Deviation**
+**A. Degree of Deviation**
 
 How far does the organization's information security posture deviate from what:
 
 * The regulator expects
 * The contract requires
 
-- **b. Probability of Discovery**
+**B. Probability of Discovery**
 
 How likely is it that the deviation will be discovered?
 

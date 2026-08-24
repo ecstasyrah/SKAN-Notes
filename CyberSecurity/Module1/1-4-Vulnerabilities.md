@@ -1,8 +1,9 @@
-# Information and Cyber Security Literacy: Governance, Risk, and Compliance
+<details>
+<summary>What is Vulnerability?</summary>
 
 # Cybersecurity Study Notes: Vulnerability Management Lifecycle
 
-## 1. What Is Vulnerability Management?
+## What Is Vulnerability Management?
 
 **Vulnerability management** is the continuous process of finding, evaluating, prioritizing, fixing, and verifying security weaknesses in an organization's systems.
 
@@ -23,7 +24,7 @@ Therefore:
 
 ---
 
-# 2. The Six Phases of the Vulnerability Management Lifecycle
+## The Six Phases of the Vulnerability Management Lifecycle
 
 The vulnerability management lifecycle can be remembered as:
 
@@ -57,7 +58,7 @@ Most vendors regularly release patches, so organizations need to continuously:
 
 ---
 
-# 1. Discovery
+## 1. Discovery
 
 The first phase is to make sure the organization knows about **all of its systems and assets**.
 
@@ -84,7 +85,7 @@ Organizations can build an inventory using:
 
 ---
 
-# 2. Prioritization
+## 2. Prioritization
 
 After discovering the organization's systems and assets, the next step is to determine their **importance to the business**.
 
@@ -113,13 +114,13 @@ This information helps vulnerability managers determine which vulnerabilities sh
 
 ---
 
-# 3. Assessment
+## 3. Assessment
 
 The assessment phase is where the organization's **current vulnerabilities are discovered**.
 
 A vulnerability manager typically uses a:
 
-## Vulnerability Scanner
+### Vulnerability Scanner
 
 A vulnerability scanner is a software application that communicates with systems and devices on the network.
 
@@ -131,7 +132,7 @@ It determines whether vulnerabilities exist and builds a database containing:
 
 The scanner also attempts to rank vulnerabilities based on how serious they are.
 
-## CVSS
+### CVSS
 
 The industry uses a standard method for describing the seriousness of vulnerabilities called:
 
@@ -144,7 +145,7 @@ The score considers factors such as:
 * How easy the vulnerability is to exploit
 * How serious the vulnerability is
 
-### Important Limitation of CVSS
+#### Important Limitation of CVSS
 
 The CVSS score is **theoretical**.
 
@@ -160,7 +161,7 @@ This allows vulnerabilities to be ranked based on their **potential impact to th
 
 ---
 
-# 4. Reporting
+## 4. Reporting
 
 The reporting phase involves creating vulnerability reports that can be reviewed by the **Information Security Committee**.
 
@@ -196,7 +197,7 @@ If vulnerabilities continue to increase, management may need to address the lack
 
 ---
 
-# 5. Remediation
+## 5. Remediation
 
 The next phase is to **remediate vulnerabilities**.
 
@@ -222,23 +223,23 @@ Ideally, vulnerabilities that fall outside the organization's security policy re
 
 ---
 
-# Ways to Remediate a Vulnerability
+### Ways to Remediate a Vulnerability
 
 The method used depends on the cause of the vulnerability.
 
-## Configuration Error
+- Configuration Error
 
 If the vulnerability is caused by an incorrect configuration:
 
 > **Configure the system properly.**
 
-## Software Vulnerability With a Patch
+- Software Vulnerability With a Patch
 
 If the software vendor has provided a patch:
 
 > **Apply the patch.**
 
-## Upgrade the Software
+-  Upgrade the Software
 
 If applying the patch is not an option, the organization may be able to:
 
@@ -246,7 +247,7 @@ If applying the patch is not an option, the organization may be able to:
 
 This may be considered when applying the patch could be too dangerous, particularly on a production system.
 
-## Compensating Controls
+- Compensating Controls
 
 If upgrading is also not possible, security engineering may develop **compensating controls**.
 
@@ -254,7 +255,7 @@ These controls reduce the likelihood of the vulnerability being exploited.
 
 ---
 
-# When a Vulnerability Cannot Be Remediated
+### When a Vulnerability Cannot Be Remediated
 
 Sometimes a vulnerability cannot be fixed even though the organization's policy says it should be.
 
@@ -269,7 +270,7 @@ The exception is then managed through the organization's **exception process**.
 
 ---
 
-# 6. Verification
+## 6. Verification
 
 The final phase is to verify that the remediation actually worked.
 
@@ -295,7 +296,7 @@ then the remediation has been successfully verified.
 
 ---
 
-# Penetration Testing
+## Penetration Testing
 
 Vulnerability scanning is **not the only way** organizations discover vulnerabilities.
 
@@ -307,7 +308,7 @@ It can discover vulnerabilities that a vulnerability scanner may not find.
 
 ---
 
-# Vulnerability Management and GRC
+## Vulnerability Management and GRC
 
 Vulnerability management is an interesting area of information security because it requires an understanding of:
 
@@ -319,7 +320,7 @@ It connects the **technical side of information security** with **GRC**.
 
 ---
 
-# GRC — Final Concepts
+## GRC — Final Concepts
 
 The course explains that GRC provides answers to:
 
@@ -346,9 +347,9 @@ Therefore:
 
 ---
 
-# Quick Review
+## Quick Review
 
-## Six Phases
+### Six Phases
 
 **1. Discovery**
 Know what systems and assets exist.
@@ -370,7 +371,7 @@ Confirm that the vulnerability has actually been removed or addressed.
 
 ---
 
-## Important Terms
+### Important Terms
 
 | Term                         | Meaning                                                                                             |
 | ---------------------------- | --------------------------------------------------------------------------------------------------- |
@@ -387,13 +388,12 @@ Confirm that the vulnerability has actually been removed or addressed.
 
 ---
 
-# Main Idea to Remember
+### Main Idea to Remember
 
 **Discover → Prioritize → Assess → Report → Remediate → Verify**
 
 The overall goal is to continuously identify vulnerabilities, determine which ones matter most to the organization, address them appropriately, and confirm that the problem has been resolved.
+ 
+![alt text](/CyberSecurity/image.png)
 
-
-
-
-![alt text](image.png)
+</details>
