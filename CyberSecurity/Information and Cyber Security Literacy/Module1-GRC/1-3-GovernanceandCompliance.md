@@ -9,12 +9,18 @@ The purpose of governance is to make sure that the organization **actively manag
 
 Corporate governance aims to ensure an organization does what it intends to do, based on these principles:
 
-* **Policies:** Stating what the organization will do based on objectives, risk, and laws.
-* **Responsibility:** Allocating people to ensure policies are followed.
-* **Reporting and Checking:** Reporting on adherence and utilizing independent checks.
-* **Exception Management:** Managing situations when things don't happen as intended.
-* **Accountability:** Holding people accountable for exceptions.
-* **Review:** Checking policies to ensure they remain appropriate.
+* **Policies:** 
+    - Stating what the organization will do based on objectives, risk, and laws.
+* **Responsibility:** 
+    - Allocating people to ensure policies are followed.
+* **Reporting and Checking:** 
+    - Reporting on adherence and utilizing independent checks.
+* **Exception Management:** 
+    - Managing situations when things don't happen as intended.
+* **Accountability:** 
+    - Holding people accountable for exceptions.
+* **Review:** 
+    - Checking policies to ensure they remain appropriate.
 
 ---
 
@@ -36,8 +42,10 @@ This policy is developed based on input from **risk and compliance specialists**
 Policy implementation and management are undertaken by a **formal committee**, managed by the governance function leader (who handles agendas, minutes, and tracking).
 
 This committee typically involves:
-* **Members:** Senior GRC personnel, IT, Legal, and Risk leaders.
-* **Duties:** Adopting policies, monitoring compliance, and dealing with exceptions.
+* **Members:** 
+    - Senior GRC personnel, IT, Legal, and Risk leaders.
+* **Duties:** 
+    - Adopting policies, monitoring compliance, and dealing with exceptions.
 
 ---
 
@@ -52,7 +60,7 @@ Because of this reality, the compliance function must answer an important questi
 </details>
 
 <details>
-<summary><b>Lesson: Exception Management, Assurance, and Audits</b></summary>
+<summary><b>Compliance</b></summary>
 
 # Exception Management and Compliance Assurance
 
@@ -106,7 +114,8 @@ In some cases, the committee authorizes resources for an urgent fix. If an excep
 * Recorded in the **risk register**
 * Given a **strict lifetime**
 
-A key task of a **risk manager** is to check the risk register for accepted risks that should have been rectified by a certain date. If they haven't, they are brought back to the committee.
+**risk manager** 
+- is to check the risk register for accepted risks that should have been rectified by a certain date. If they haven't, they are brought back to the committee for a review.
 
 > **If an out-of-tolerance risk keeps getting accepted, senior management needs to be aware of it.**
 
@@ -136,7 +145,7 @@ In larger organizations, the **internal audit department** periodically assesses
 
 ### External Audits
 Used to prove compliance to an external party (at the request of a regulator or customer).
-* Can happen periodically, on a random basis, or only after an incident
+* Can happen (a) periodically, on a (b) random basis, or only (c) after an incident
 * These are the tools regulators and customers use to make sure an organization "isn't speeding"
 
 The compliance team often acts as a **liaison** between internal/external auditors and relevant security teams, and tracks the remediation of any issues found.
@@ -147,15 +156,15 @@ The compliance team often acts as a **liaison** between internal/external audito
 
 The governance function is responsible for:
 
-1. **Policy Creation:** Ensuring the organization has an information security policy based on risk and external obligations.
-2. **Oversight:** Making sure requirements are properly implemented and maintained by architecture, engineering, administration, and operations teams (by receiving reports, metrics, and compliance assurance).
-3. **Managing Exceptions:** Ensuring variances are properly managed and accepted by someone with the appropriate level of authority.
-4. **Reporting:** Reporting on the health of information security to a corporate or enterprise risk and governance function.
+1. **Policy Creation:** 
+    - Ensuring the organization has an information security policy based on risk and external obligations.
+2. **Oversight:** 
+    - Making sure requirements are properly implemented and maintained by architecture, engineering, administration, and operations teams (by receiving reports, metrics, and compliance assurance).
+3. **Managing Exceptions:** 
+    - Ensuring variances are properly managed and accepted by someone with the appropriate level of authority.
+4. **Reporting:** 
+    - Reporting on the health of information security to a corporate or enterprise risk and governance function.
 
 ---
-
-## Next Module
-
-There is one more function associated with GRC left in the course, and that is **vulnerability management**.
 
 </details>
