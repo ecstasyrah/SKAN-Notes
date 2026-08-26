@@ -16,7 +16,7 @@ GRC answers two important questions about an organization's information security
 
 ---
 
-# 1. What Information Security Should an Organization Do?
+## What Information Security Should an Organization Do?
 
 The information security an organization decides to implement is mainly determined by **two factors**.
 
@@ -50,7 +50,7 @@ or
 
 ---
 
-# 2. Information Security Policy
+## Information Security Policy
 
 The information security policy describes what different information security functions should do.
 
@@ -73,7 +73,7 @@ This leads to the second major question of GRC:
 
 ---
 
-# 3. Making Sure the Policy Is Being Followed
+## Making Sure the Policy Is Being Followed
 
 GRC helps determine whether what the organization **intends to happen** is actually happening.
 
@@ -89,7 +89,7 @@ These activities help determine whether the organization's information security 
 
 ---
 
-# 4. Reviewing and Improving the Policy
+## Reviewing and Improving the Policy
 
 Information security will not always work perfectly.
 
@@ -109,7 +109,7 @@ the organization's information security approach.
 
 ---
 
-# 5. Risk in Information Security
+## Risk in Information Security
 
 One of the important parts of GRC is understanding:
 
@@ -125,7 +125,7 @@ These are the three types of impact discussed in the course.
 
 ---
 
-# 6. Confidentiality
+## Confidentiality
 
 A breach of **confidentiality** occurs when information is exposed to people who are **not authorized to see it**.
 
@@ -137,7 +137,7 @@ If yes, this is a **confidentiality breach**.
 
 ---
 
-# 7. Integrity
+## Integrity
 
 A breach of **integrity** occurs when information is altered and the organization can no longer rely on the data.
 
@@ -149,7 +149,7 @@ If yes, this is an **integrity breach**.
 
 ---
 
-# 8. Availability
+## Availability
 
 A breach of **availability** occurs when a system becomes unavailable to the people who need to use it.
 
@@ -161,7 +161,7 @@ If yes, this is an **availability breach**.
 
 ---
 
-# 9. Confidentiality, Integrity, and Availability
+## Confidentiality, Integrity, and Availability
 
 The three can be remembered as:
 
@@ -173,7 +173,7 @@ The three can be remembered as:
 
 ---
 
-# 10. From Availability to Business Risk
+## From Availability to Business Risk
 
 When a system becomes unavailable, the organization may experience a **business impact**.
 
@@ -189,7 +189,7 @@ It is about **how a security problem can affect the organization**.
 
 ---
 
-# 11. Organizations Manage Many Types of Risk
+## Organizations Manage Many Types of Risk
 
 Organizations do not only manage information security or technology risks.
 
@@ -205,7 +205,7 @@ These examples show that **risk exists throughout the organization**, not just w
 
 ---
 
-# 12. Where Does the GRC Team Belong?
+## Where Does the GRC Team Belong?
 
 Because GRC deals with **organizational risk**, the GRC team does not always report directly to the:
 
@@ -222,7 +222,7 @@ Where GRC belongs depends on factors such as:
 
 ---
 
-# 13. Different Organizational Structures
+## Different Organizational Structures
 
 There are different ways organizations can structure GRC.
 
@@ -250,7 +250,7 @@ The responsibility for information security risk can be placed differently depen
 
 ---
 
-# 14. GRC and Information Security Risk
+## GRC and Information Security Risk
 
 Regardless of where GRC sits within the organization, one important responsibility is determining the risk associated with a breach of:
 
@@ -266,7 +266,7 @@ This connects technical security problems to their **impact on the organization*
 
 ---
 
-# 15. Starting the GRC Journey
+## Starting the GRC Journey
 
 The course explains that understanding **risk** is where the GRC journey begins.
 
