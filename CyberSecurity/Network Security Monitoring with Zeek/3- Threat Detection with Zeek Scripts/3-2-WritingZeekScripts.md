@@ -82,6 +82,9 @@ The logging framework is built on three core components: writers, filters, and s
 *   **Supported Formats:** The **ASCII writer** is the most common (and can be converted to JSON). Zeek also natively supports **SQLite** and integrations for platforms like **Elasticsearch**.
 *   **Customization:** Writers are rarely modified directly unless a specific output format is required. However, they offer built-in options (detailed in the *Book of Zeek*) for formatting timestamps, writing natively in JSON, and detecting un-rotated logs.
 
+![](image.png)
+
+> more files at docs.zeek.org
 ---
 
 ### 2. Log Filters
@@ -118,6 +121,7 @@ The Notice Framework allows you to define specific actions to take when Zeek fla
 ## Customizing with Hooks and Policies
 You can tailor the framework's behavior using policies, hooks, and specific record types to ensure you only receive the alerts that matter.
 *   **Notice Policies:** Act as filters to determine which flagged situations are actionable and what specific actions to apply to them.
+![alt text](image-1.png)
 *   **Policy Hooks:** Multi-bodied functions used to modify notices—such as appending payload data or connection IDs—before they are sent onward to the action plugins.
 *   **Prioritization:** Multiple policy hooks can have priorities applied to dictate their execution order (greater values execute first).
 *   **The `Notice::Info` Record:** The primary record type that contains the context of the event (like message strings and sources) and is passed to the `NOTICE` function.
@@ -131,4 +135,148 @@ A custom script can leverage the Notice Framework to actively track and alert on
 4.  **Trigger Notice:** Use an `if` statement to evaluate the count; if the attempt counter exceeds a threshold (like 5), trigger the custom notice.
 5.  **Deploy:** Append the `@load` statement to `local.zeek`, verify the configuration with `zeekctl check`, and apply the changes with `zeekctl deploy`.
 
+```bash
+# Helps detect ssh bruteforce activity
+cd /opt/zeek/share/zeek/site 
+ll
+# create detect bruteforce file
+nano detect_bruteforce_ssh.zeek
+
+@load base/frameworks/notice
+@load base/protocols/ssh
+
+redef enum Notice::Type += { SSH_Brute_Force };
+global ssh_attempts: table[addr] of count &default =0;
+
+event ssh_auth_attempt(c:connection, success:bool)
+{
+    if (!success)
+    #if the ssh attempt is successfull
+    {
+        #increment the ssh attempt count
+        ssh_attempts[c$id$orig_h] += 1;
+
+        #if it is more the 5 notify that it is a brute force attack
+        if (ssh_attempts[c$id$orig_h] > 5)
+        {
+            NOTICE([
+                $note=SSH_Brute_Force,
+                $msg=fmt("Excessive failed SSH attempts from %s", c$id$orig_h),
+                $conn=c
+            ]);
+        }
+    }
+}
+
+#save and enter
+# edit the local.zeek
+nano local.zeek
+
+@load ./detect_bruteforce_ssh
+# check if there are no errors on the script
+sudo /opt/zeek/bin/zeekctl check
+sudo zeekctl deploy
+
+#check logs
+jq . /opt/zeek/logs/current/notice.log
+
+```
+
+</details>
+
+<details>
+<summary><b>Monitoring DNS with Zeek</b></summary>
+
+## DNS Monitoring Overview
+Using Zeek to inspect, track, and alert on DNS queries and responses across the network.
+
+### 1. Capabilities and Use Cases
+*   **Deep Inspection:** 
+    - Zeek allows inspection inside DNS queries and responses for specific domains, record types, or metadata.
+*   **Enforcing DNS Policies:** 
+    - Can trigger Notice Framework actions if endpoints communicate with unauthorized external DNS servers.
+*   **Threat Detection & Intelligence:** 
+    - Enables domain blocking or alerting by comparing queries against known malicious domains, blocklists, or threat intelligence feeds.
+
+---
+
+## Creating the Custom DNS Monitor Script
+Building `dns_monitor.zeek` in the site directory to alert on specific domain queries.
+
+### 1. Script Logic and Construction
+*   **Loading Dependencies:** 
+    - Loads the base DNS protocol analyzer.
+*   **Custom Notice Type:** 
+    - Redefines `Notice::Type` to include a custom alert type (e.g., for Google DNS queries).
+*   **Event Handling:** 
+    - Inspects the `query` field inside the DNS event handler to check for specific string patterns (such as `google.com`).
+
+---
+
+## Deploying and Verifying Zeek DNS Analyzers
+Confirming analyzer states, loading custom scripts, and testing detections.
+
+### 1. Checking Active DNS Events
+*   **Inspecting Built-in Events:** 
+    - Running the `zeek` binary with the `-NN` flag and piping to `grep` for `DNS` displays currently enabled analyzers and events (e.g., DNS content analyzer, DNS keys, cookies, and keepalives).
+*   **Loading and Deploying:** 
+    - Add `@load dns_monitor` into `local.zeek`.
+    - Deploy the updated configuration via Zeek management tools.
+
+### 2. Generating Traffic and Log Verification
+*   **Generating Test Queries:** 
+    - Running commands like `nslookup google.com` generates actual DNS query traffic for Zeek to inspect.
+*   **Log Analysis:** 
+    - The triggered event is logged to `notice.log` and can be formatted with `jq`.
+*   **Subdomain Matching:** 
+    - String-based matching triggers on full domain trees (e.g., queries for `calendar.google.com` will match a `google.com` pattern).
+
+---
+
+## Production Considerations
+*   **Tuning and Noise Reduction:** 
+    - Broad domain rules (like matching `google.com`) generate high noise and are not suitable for production monitoring.
+*   **Targeted Matching:** 
+    - Real-world detections should target specific malicious domains (e.g., `internetbaddguys.com`), high-risk TLDs, destination lists, or integrated threat intelligence sources.
+
+```bash
+# Helps detect DNS activity
+cd /opt/zeek/share/zeek/site 
+
+# create detect bruteforce file
+nano dns_monitor.zeek
+
+@load base/protocols/dns
+
+redef enum Notice::Type += { Google_DNS_Query };
+
+event DNS::log_dns(rec: DNS::Info)
+{
+    ## Check if there is a google query
+    if (rec?$query && /google\.com$/ in rec$query)
+    {
+        NOTICE([
+            $note = Google_DNS_Query,
+            $msg = fmt("Detected DNS query to google.com: %s", rec$query)
+        ]);
+    }
+}
+
+#save and enter
+# edit the local.zeek
+nano local.zeek
+
+@load ./dns_monitor
+# able to see what dns type of events
+sudo /opt/zeek/bin/zeek -NN | grep DNS
+
+
+# check if there are no errors on the script
+sudo /opt/zeek/bin/zeekctl check
+sudo zeekctl deploy
+#detetion will happen if zeek sees dns come through
+#check logs
+jq . /opt/zeek/logs/current/notice.log
+```
+![alt text](image-2.png)
 </details>
