@@ -167,3 +167,196 @@ As an investigation evolves, you will need to add, remove, and modify columns fr
     - To bring it back, right-click the headers again and re-check the box. This keeps the profile clean without permanently deleting your custom configurations.
 
 </details>
+
+<details>
+<summary><strong>Lab 5 – Configuring Name Resolution</strong></summary>
+
+## Lab 5 – Configuring Name Resolution
+- Configure Wireshark to display readable names for MAC addresses, port numbers, IP addresses, and IPv6 addresses.
+
+### Step 1: Open Name Resolution Settings
+- Access the settings used to configure name resolution.
+
+1. Open **Wireshark**.
+2. Select **Edit**.
+3. Select **Preferences**.
+4. Choose **Name Resolution**.
+
+### Step 2: Resolve MAC Addresses
+- This displays the device manufacturer instead of only the complete MAC address.
+
+1. Enable **Resolve MAC addresses**.
+2. Check the source and destination columns for resolved manufacturer names.
+
+#### How It Works
+- Wireshark compares the MAC address prefix with a list of registered manufacturers. For example, it may identify a device as an Apple product.
+
+### Step 3: Resolve Transport Names
+- This replaces recognized TCP and UDP port numbers with their service names.
+
+1. Enable **Resolve transport names**.
+2. Check the **Info**, **Source Port**, and **Destination Port** columns.
+
+#### Examples
+- UDP port `53` may appear as `DNS`.
+- TCP port `443` may appear as `HTTPS`.
+- High-numbered or unknown ports may remain displayed as numbers.
+
+### Step 4: Resolve Network Addresses
+- This replaces IPv4 and IPv6 addresses with available hostnames.
+
+1. Enable **Resolve network (IP) addresses**.
+2. Select the preferred name-resolution methods.
+
+#### Default Resolution Sources
+- If no additional options are enabled, Wireshark uses its hosts file and the name-resolution blocks stored in the capture file.
+
+### Step 5: Use Captured DNS Data
+- This allows Wireshark to resolve addresses using DNS requests and responses found inside the PCAP file.
+
+1. Enable the option to use captured DNS packet data.
+2. Wireshark will match requested domains with the IP addresses returned in DNS responses.
+
+#### Example
+- If the capture contains a DNS request and response for `google.com`, Wireshark can associate the returned IP address with that hostname.
+
+#### Limitation
+- Wireshark cannot use this method when the related DNS request or response is missing from the capture.
+
+### Step 6: Use an External DNS Resolver
+- This allows Wireshark to actively resolve captured IP addresses using a DNS server.
+
+1. Enable the external network name resolver.
+2. Use the computer’s default DNS server or configure a specific DNS server.
+3. Review the captured addresses after resolution begins.
+
+#### Traffic Warning
+- Active resolution can generate many DNS requests, especially when working with large capture files.
+
+### Step 7: Limit Concurrent DNS Requests
+- This controls how aggressively Wireshark sends DNS queries.
+
+1. Locate **Maximum concurrent requests**.
+2. Enter the maximum number of outstanding DNS requests.
+3. Use a lower value if you want Wireshark to generate less DNS traffic.
+
+#### Example
+- A value of `500` allows up to 500 outstanding DNS requests at one time.
+
+### Step 8: Apply the Settings
+- Save the configuration and display the available resolved names.
+
+1. Click **OK**.
+2. Check whether IP addresses, port numbers, and MAC addresses now have readable names.
+
+### Step 9: Assign a Name Manually
+- Manual names are useful for devices that do not have DNS names or cannot be identified from the PCAP.
+
+1. Right-click the IP address.
+2. Select **Edit Resolved Name**.
+3. Enter a recognizable name, such as `Client`.
+4. Click **OK**.
+
+### Step 10: Remove a Manual Name
+- Remove an assigned name to display the original IP address again.
+
+1. Right-click the renamed address.
+2. Select **Edit Resolved Name**.
+3. Delete the assigned name.
+4. Click **OK**.
+
+### Key Takeaway
+- Name resolution makes forensic analysis easier by replacing technical addresses and ports with readable names. Use active DNS resolution carefully because it generates additional network traffic.
+
+</details>
+
+<details>
+<summary><strong>Lab 6 – Exporting HTTP Objects and Files</strong></summary>
+
+## Lab 6 – Exporting HTTP Objects and Files
+- Export files and other objects contained in HTTP traffic from a PCAP using Wireshark.
+
+### Required Capture File
+- Open the **Lab 6 Part 1 – Exporting Objects PCAP** file.
+
+### HTTP Traffic
+- Port `80` commonly uses HTTP, which normally transfers data without encryption.
+
+#### Important Correction
+- Port `80` is associated with **HTTP**, not HTTPS. HTTPS commonly uses port `443` and encrypts its traffic.
+
+#### Encrypted Traffic
+- Files carried through encrypted traffic are difficult to extract unless the traffic is decrypted first.
+
+### Purpose of Exporting Objects
+- Exporting allows investigators to examine files delivered to a system and determine whether they are safe or malicious.
+
+#### Malware Analysis
+- Suspicious files can be analyzed in an isolated environment or submitted to a service such as **VirusTotal**.
+
+### Supported Application Protocols
+- Wireshark can natively export objects from several protocols, including HTTP, SMB, TFTP, mail, and DICOM.
+
+### Step 1: Open the PCAP
+- Load the packet capture containing the HTTP objects.
+
+1. Open **Wireshark**.
+2. Open the **Lab 6 Part 1 – Exporting Objects PCAP** file.
+3. Locate the traffic using port `80`.
+
+### Step 2: Open the Export Objects Window
+- Access Wireshark’s built-in object-exporting feature.
+
+1. Select **File** from the menu.
+2. Select **Export Objects**.
+3. Choose **HTTP**.
+
+### Step 3: Review the Available Objects
+- Examine the HTTP objects found inside the PCAP.
+
+#### Displayed Information
+- **Hostname** shows where the file originated.
+- **Content Type** identifies the type of file.
+- **Size** shows the file’s total size.
+- **Filename** displays the object’s name.
+
+### Step 4: Select an HTTP Object
+- Choose the file that you want to extract from the packet capture.
+
+1. Locate the object from `ubuntugeek.com`.
+2. Select the PNG image named `ubuntu1`.
+3. Confirm that its size is approximately `10 KB`.
+
+### Step 5: Save the Object
+- Export the selected file to a folder on the computer.
+
+1. Select the desired object.
+2. Click **Save**.
+3. Choose a destination folder.
+4. Confirm the filename and extension.
+5. Complete the save operation.
+
+### Step 6: Verify the Exported File
+- Confirm that the selected object was successfully extracted.
+
+1. Open the destination folder.
+2. Locate the exported image.
+3. Open it only if the capture and file are confirmed to be safe.
+4. Verify that the image displays correctly.
+
+### Lab Safety
+- The objects in this specific lab PCAP have been filtered and are considered safe to export.
+
+### General Security Warning
+- Objects extracted from unknown or suspicious traffic may contain malware.
+
+#### Safety Precautions
+- Do not directly open unknown executable, binary, or document files.
+- Analyze suspicious files in an isolated virtual machine or sandbox.
+- Remember that Windows, Linux, and macOS can all be affected by malicious files.
+- Do not upload confidential files to public malware-analysis services.
+
+### Key Takeaway
+- Use **File → Export Objects → HTTP** to review and save files transferred through unencrypted HTTP traffic. Always handle objects from suspicious captures carefully.
+
+</details>
