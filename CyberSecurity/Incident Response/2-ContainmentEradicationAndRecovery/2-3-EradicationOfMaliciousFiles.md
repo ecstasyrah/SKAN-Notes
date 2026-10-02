@@ -1,123 +1,176 @@
 <details>
-<summary><strong>Focus Efforts on the Endpoint</strong></summary>
+<summary>Focus Efforts on the Endpoint</summary>
 
-## Focus Efforts on the Endpoint
+## Completely Wipe and Reload
 
-- Objective: decide whether to rebuild affected systems or perform targeted cleanup.
+- It is impossible to be **100% positive that a device has been cleaned** simply by deleting:
+  - Files
+  - Processes
+  - Services
+  - Tasks
+  - Keys
+  - Anything else that you found associated with an intrusion
+- **The only way to be sure that you have fully removed any malicious code from an endpoint is to completely wipe and reload.**
 
-### Rebuild Versus Cleanup
+## Endpoint Eradication Plan
 
-| Approach | Benefit | Limitation |
-|---|---|---|
-| Rebuild from trusted sources | Higher confidence in restoring endpoint integrity | Requires downtime and restoration planning |
-| Targeted cleanup | May preserve critical services temporarily | Unknown artifacts or persistence may remain |
+Take into consideration:
 
-- Deleting known files, tasks, services, or registry entries cannot prove that every malicious component is gone.
-- A trusted rebuild provides stronger assurance, but broader compromise may also require credential and infrastructure remediation.
+- Where it makes sense to spend time **trying to clean up**:
+  - Mitigate the risk with **monitoring and detection**.
+- Where it makes more sense to save that time and just **wipe the system and rebuild**.
 
-### Business Decision
+## Acceptable Risk Limits
 
-- Globomantics needs the data and continued availability of victim 2.
-- The response therefore includes targeted cleanup while considering recovery and eventual migration.
-- Residual risk must be explained and accepted by the appropriate decision-makers.
+- Globomantics may not care to be **100% positive** that they have removed even the chance that some advanced nation state actor rode along this intrusion and left some spyware.
+- That may fall within their **acceptable risk limits**.
+- The alternative would be to **wipe a system that they can't afford to go down**.
 
-### Enterprise Execution
+## Victim 2
 
-- Centralized endpoint agents can distribute remediation actions.
-- Coordinate changes across affected systems.
-- Preserve required evidence before removing artifacts.
+- Devices in the Globomantics network that show **open port 8080**:
+  - At least means that they've been compromised with the ransomware.
+- **Victim 2**:
+  - They have to have that data.
+  - They can't afford for the machine to be wiped.
+- **Malware analysis team**:
+  - They may be able to save the files.
+  - They need you to clear the infected device first.
 
-### Exam Focus
+## Endpoint Agents
 
-- The decision depends on asset criticality, downtime tolerance, confidence in cleanup, and recovery options.
-- Keeping a cleaned system operational should include monitoring and a plan to restore trust.
-
-</details>
-
-<details>
-<summary><strong>Demo: Eradicating Host Persistence</strong></summary>
-
-## Demo: Eradicating Host Persistence
-
-- Objective: remove known scheduled-task persistence and interfere with malicious name resolution.
-
-### Identify Persistence
-
-- The malware repeatedly relaunches through the scheduled task `IAMNOTACAT`.
-- `schtasks` can enumerate scheduled tasks.
-- Closing the visible malware window does not remove the mechanism that starts it again.
-
-### Velociraptor Remediation
-
-1. Create a remediation hunt.
-2. Select the relevant scheduled-task and sinkhole artifacts.
-3. Configure the exact task name and domain entries.
-4. Confirm authorization and intended targets.
-5. Enable actual execution rather than a preview.
-6. Launch and verify results.
-
-- In the demonstrated artifact, `ReallyDoIt` distinguishes actual remediation from a dry run.
-
-### Hosts-File Redirection
-
-- Windows hosts-file location:
-  - `C:\Windows\System32\drivers\etc\hosts`
-- Mapping a hostname to `127.0.0.1` directs it to the local loopback address.
-- The hosts file affects only that endpoint unless changes are deployed more broadly.
-
-### Important Limitations
-
-- Hosts-file entries match specific hostnames; blocking `iamironcat.com` does not automatically block `hello.iamironcat.com`.
-- Malware using a direct IP address or another resolution method may bypass this approach.
-- Removing a task does not necessarily terminate a process it already launched.
-- Loopback redirection is not a replacement for network containment.
-
-### Validate and Continue Hunting
-
-- Confirm that the scheduled task is gone.
-- Confirm that the intended hosts-file changes took effect.
-- Investigate associated executables, scripts, and running processes.
-- An additional batch file in `ProgramData` demonstrates that earlier detections missed artifacts.
-
-### Exam Focus
-
-- Removing one persistence mechanism does not prove complete eradication.
-- Verify the outcome of remediation rather than relying only on a successful job status.
+- An **endpoint agent on every device** in the Globomantics network.
+- Manage these agents from a **centralized location**.
+- Take actions on **all of the affected devices at the same time**.
 
 </details>
 
 <details>
-<summary><strong>Post Eradication Considerations</strong></summary>
+<summary>Demo: Eradicating Host Persistence</summary>
 
-## Post Eradication Considerations
+## Identify the Scheduled Task
 
-- Known malicious artifacts may be removed while undiscovered code remains.
+- **Console host popping up**:
+  - Even if we exit out of it, it just keeps coming back every minute or so.
+  - Associated with a **scheduled task**.
+- **schtasks**:
+  - That'll list everything out.
+- **IAMNOTACAT**:
+  - The running IAMNOTACAT task.
+  - On every single system that the ransomware executed on.
+- **Remove this scheduled task from all of the endpoints all at the same time**:
+  - Or it's just going to continue to open back up and call back out.
 
-### Why Detections Can Miss Artifacts
+## Create the Remediation Hunt
 
-- Attackers can change:
-  - Function names.
-  - Filenames and paths.
-  - Embedded strings.
-  - Encodings.
-  - Payload types.
-  - Persistence mechanisms.
+1. Use **Velociraptor**.
+2. Make a **new hunt**.
+3. Call this one **Remediation**.
+4. Go to **Select Artifacts**.
+5. Look for a set of plugins that are **remediation plugins**:
+   - Windows Remediation Quarantine
+   - Scheduled Tasks
+   - Sinkhole
+6. Configure these parameters:
+   - **Each one has to be configured individually.**
 
-- A clean result from one signature set is not proof of a clean system.
+## Configure Sinkhole
 
-### When Immediate Rebuild Is Not Possible
+- **iamironcat.com**:
+  - Tell it not to call out.
+  - Not to allow DNS to go reach out to anything at iamironcat.com.
+- **Host file**:
+  - Will only affect this individual host, not any other hosts.
+  - Use Velociraptor to change this host file across all the endpoints that it exists on.
+- Change **evil.com** to **iamironcat.com**.
+- Whenever it reaches out there, send it to **127.0.0.1**:
+  - The **loopback address**.
+  - Sending them back to the individual box.
+  - That traffic is going to fail.
 
-1. Remove known malicious activity.
-2. Maintain containment where required.
-3. Monitor for recurrence and unexpected behavior.
-4. Establish trusted replacement infrastructure.
-5. Migrate validated data and dependencies.
-6. Retire or rebuild the affected system.
+## Configure Scheduled Tasks
 
-### Exam Focus
+1. **Delete all of the tasks by name**.
+2. Put in the **IAMNOTACAT** name.
+3. Check the **task path**:
+   - Make sure that some older versions of Windows didn't store the tasks in this location.
+4. **Delete these arguments**:
+   - So you're not worried about these arguments associated with this task.
+5. **ReallyDoIt**:
+   - The difference between seeing what happens if you did run this versus **actually deleting the task**.
 
-- “No known indicators detected” and “confirmed trustworthy” are different conclusions.
-- Temporary cleanup requires explicit residual-risk management.
-- Recovery should restore confidence in systems, not merely their availability.
+## Permission Before Remediation
+
+- Depending on the engagement:
+  - You really want the administrators to do this.
+  - They may be fine with you taking this action on the device.
+- **Their IT staff needs to be aware before you do anything that actually changes their environment.**
+
+## Launch and Verify
+
+1. Review our settings.
+2. Save this hunt if you want to reuse it later.
+3. Go to **Launch**.
+4. Click **Play**.
+5. Wait until it's finished.
+6. Take a look at the **notebook**:
+   - Identify that it did successfully add this host name to the localhost file for this specific device.
+7. Check the scheduled task using that same command "schtasks" :
+   - **The IAMNOTACAT scheduled task is no longer there.**
+
+## Execute Across All Endpoints
+
+- Execute things across **all of the endpoints at the same time**.
+- Use that **centralized server**.
+- It could be anything you're using for your **endpoint detection response** that has an **active or remediation capability**:
+  - Remove the scheduled task.
+  - Set that file for the host file all at the same time.
+
+## Remaining Malicious Files
+
+- **Program data folder**:
+  - There were some batch files.
+  - One of the places that the batch file called out to that was in the scheduled task.
+  - A **hidden folder**, so you have to type it in directly to get there.
+- **mjfy**:
+  - This specific batch file.
+  - Didn't show up in any of our other detections.
+- **It's impossible to know for sure that something's completely clean.**
+- You really would prefer to **wipe everything**.
+- If you can't do that:
+  - Do the best job you can with eradication.
+  - **Keeping services up with a plan to still wipe and go back to something else.**
+
+</details>
+
+<details>
+<summary>Post Eradication Considerations</summary>
+
+## Changing Function Names
+
+- Looking for **specific function names in a binary**.
+- That binary is **deployed individually to each device**.
+- The logic could easily be created to:
+  - **Patch those names with different names for each deployment.**
+
+## Breaking File Patterns
+
+- There is a **pattern to the names of the files dropped**.
+- A **false sense of confidence**:
+  - Hiding sets of files completely broken from the pattern.
+- Instead of long names:
+  - **They are short.**
+  - **They use a different encoding.**
+- Any number of options exist.
+
+## Recovery Plan
+
+- **Some devices simply can't be wiped and reloaded at any given moment.**
+- Part of the recovery plan has to include:
+  - **Standing up alternate clean infrastructure.**
+  - **Swapping over dependency as soon as possible.**
+- You removed:
+  - **The attacker.**
+  - **Any code that you could find.**
 
 </details>

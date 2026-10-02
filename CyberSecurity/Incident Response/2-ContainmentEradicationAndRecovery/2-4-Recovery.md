@@ -1,110 +1,173 @@
 <details>
-<summary><strong>Assist in Recovery of Operations</strong></summary>
+<summary>Assist in Recovery of Operations</summary>
 
-## Assist in Recovery of Operations
+## Malware Analysis Findings
 
-- Objective: determine whether encrypted business data can be recovered safely.
+- The malware analysis team used:
+  - **Static and dynamic analysis of the executable**.
+  - Captures of the **live RAM**.
+  - **Packet traffic** that you pulled in initial triage.
+- They are very confident that you can **use the executable to decrypt the data**.
 
-### Malware Analysis Inputs
+## Ransomware Infrastructure Requirements
 
-- Malware analysts can examine:
-  - Executables through static and dynamic analysis.
-  - Memory captures.
-  - Packet captures.
-  - Encryption routines and implementation mistakes.
-  - Victim identifiers and key-related artifacts.
+1. The executable needs to create a **unique identifier**:
+   - An identifier for the **device and the network**.
+2. Using either a **preshared or generated key**, files are encrypted.
+3. If it is **preshared**:
+   - There are potentially **artifacts of that key inside the executable**.
+4. If a **generated key** is used:
+   - That key needs to be shared with a **centralized server**.
+   - Along with the **uniquely identifiable device information**.
+5. Otherwise, they would not be able to **decrypt the data if the client pays up**.
+   - There has to be some sort of way to decrypt said data.
 
-### Why Decryption May Be Possible
+## Why Recovery Was Possible
 
-- A key may be recoverable from memory or other evidence.
-- An implementation flaw may expose key material.
-- A suitable decryptor may already exist.
-- In this lab, reused or incorrectly implemented code leaks information needed for decryption.
+- **Did the ransomware portal actually work?**
+  - No. It was deemed a **distraction**.
+- The programmer would likely not write all of that code from scratch:
+  - Buy it from a group that provides **ransomware as a service**.
+  - Go to the evil version of GitHub or Stack Overflow and just copypasta until it works.
+- **Code was reused or even not properly implemented**.
+- **The key used for encryption was leaked**.
 
-- These possibilities depend on the ransomware design.
-- Ransomware does not universally transmit a recoverable decryption key in captured traffic.
+## Victim 2: Recovering the Data
 
-### Recovery Risks
+- Globomantics needs that data from the **victim 2 server**.
+- You started to clean up the mess that the ransomware made and **left it in service**.
+- The catch:
+  - You have to use the **original executable**.
+  - It apparently has a usable **decrypt function**.
 
-- Executing the original malware may reinfect the system.
-- A decrypt function may trigger additional malicious behavior.
-- Recovered files may contain malicious content.
-- Copying unvalidated files to clean infrastructure can reintroduce compromise.
+## Risks to Convey to Globomantics
 
-### Decision Ownership
+- What confidence do you have in the **malware analysts**?
+- What could the **potential consequences** be?
 
-- The responder explains feasibility, confidence, and risks.
-- The incident manager and organization decide whether to proceed.
-- Preserve original evidence and encrypted data before recovery attempts.
+**Could this reinfect the system?**
 
-### Exam Focus
+- Sure.
+- If you can un encrypt the files and **upload those to a new host to serve the same function**:
+  - Maybe that is a viable risk mitigation.
 
-- Successful decryption restores readability, not necessarily integrity or trust.
-- Recovery decisions require both technical assessment and business authorization.
+**Could those unencrypted files now be themselves compromised?**
 
-</details>
+- The decrypt function could trigger **more obfuscated and malicious behavior**.
+- You think that the files are decrypted and maybe they are:
+  - Globomantics loads them up to a **new server**.
+  - On a time delay, one of those files has a **hidden payload that calls back out**.
 
-<details>
-<summary><strong>Demo: Use Forensic Analysis to Recover Data</strong></summary>
+## Who Makes the Decision?
 
-## Demo: Use Forensic Analysis to Recover Data
-
-- Objective: demonstrate recovery using information supplied by malware analysts.
-
-### What Happens in the Lab?
-
-1. Analysts identify a usable decrypt function.
-2. The first attempt fails because previous containment blocks its required connection.
-3. The demonstration reverses the relevant network and hosts-file restrictions.
-4. The decrypt function runs successfully.
-5. Files lose their `.encrypted` suffix and become readable again.
-
-### Validate Recovery
-
-- Confirm that required documents open.
-- Check that restored data is complete and usable.
-- Inspect recovered content before migrating it.
-- Do not rely solely on restored icons or changed extensions.
-
-### Lab Versus Operational Practice
-
-- This is a deliberately simplified training scenario.
-- Reconnecting malware to attacker infrastructure is not a general recovery procedure.
-- Real recovery should use an approved, controlled process, preferably on isolated copies with validated tools.
-- Any temporary changes to containment need explicit review and follow-up.
-
-### Exam Focus
-
-- Earlier containment actions can affect recovery procedures.
-- Keep records of configuration changes and available backups.
-- Decryption success does not prove that malware or persistence has been removed.
-- Recovery is not guaranteed for every ransomware family.
+- **Is this your decision? No.**
+- Your job is to **convey that risk**.
+- Allow the **incident manager** to come to the decision with **Globomantics**.
+- They were ready to just instantly pay the ransom.
+- They approve of you **attempting to get back their data**.
 
 </details>
 
 <details>
-<summary><strong>Do Not Let This Happen Again</strong></summary>
+<summary>Demo: Use Forensic Analysis to Recover Data</summary>
 
-## Do Not Let This Happen Again
+## Run the Decrypt Function
 
-- Restored operations do not necessarily eliminate credential abuse or other long-term access.
+- Inside the **lab environment**:
+  - Run the code in the way that the malware analyst thinks it can be used to **decrypt these files**.
+- As soon as it goes to run:
+  - An error because it **doesn't have access to the outside environment**.
+- Reconstruct the situation in which this ran:
+  - So that it can actively **connect back out to the internet**.
 
-### Golden Tickets
+## Remove the Blocks in the Lab Environment
 
-- A golden ticket is a forged Kerberos ticket-granting ticket created using compromised `krbtgt` key material.
-- Compromise of ordinary user passwords and compromise of domain authentication keys require different remediation.
-- Changing normal account passwords alone does not address stolen `krbtgt` keys.
+**Outbound rules**
 
-### Important Correction
+- Get rid of these **outbound rules** that we created for **iamironcat.com**.
 
-- Restarting or “rolling” domain controllers does not itself rotate the `krbtgt` password.
-- Remediation requires a coordinated `krbtgt` reset process, typically involving two resets with appropriate replication and ticket-lifetime planning.
-- Domain administrator compromise warrants investigation, but does not by itself prove a golden ticket was created.
+**Host file block**
 
-### Exam Focus
+1. Go into **drivers** inside **System32**, into the **etc** folder.
+2. Change this to look for **all files**:
+   - It's not labeled as a text document.
+3. Go to **hosts**.
+4. Velociraptor made a **backup of that file** when it did the change.
+5. Delete the current host file.
+6. Rename this backup the host file.
 
-- Address compromised credentials and identity infrastructure as well as malicious files.
-- Use the incident’s findings to improve prevention, detection, and recovery.
-- Returning to normal operations is not the same as preventing recurrence.
+**Result**
+
+- We won't be blocked when we try to go to **iamironcat.com**.
+- With everything back in the state that it was before:
+  - Use the **decrypt function**.
+
+## Verify the Decryption
+
+- Going through **every single file using the key**.
+- Files popping up without the **.encrypted** ending.
+- Wait for it to **finish decrypting everything**.
+
+**Check the recovered files**
+
+- The previously encrypted **ransom note**:
+  - We open it, and it's good to go.
+- **Icons**:
+  - All of our icons are back or at least most of our icons are back.
+- **Firefox**:
+  - We have Firefox back.
+- **Batch file**:
+  - Back the way it's supposed to be.
+- **Lab info**:
+  - Lab info is here.
+- **Documents that we needed**:
+  - This looks like it's unencrypted as well.
+  - The leak of dark energy being fake is now also unencrypted.
+
+## What the Demonstration Shows
+
+- **We were able to decrypt the data.**
+- **Is this really realistic? No.**
+- But there are versions of ransomware executions that allow you to:
+  - **Pull keys** that can be used to recover **some of your data**.
+- There are also **decrypters for a large number of ransomware**.
+- That means:
+  - You don't have to pay up.
+  - You can recover the data.
+- This is a version of that to try to **simulate it**:
+  - Something you can follow along with in the **lab environment**.
+
+</details>
+
+<details>
+<summary>Do Not Let This Happen Again</summary>
+
+## Returning to Normal Operations
+
+- Globomantics is happy, feeling like they've made it back to **normal operations**.
+- But there are **dangers introduced that either can't or haven't been fully eradicated**.
+
+## Malware Reverse Engineering
+
+- Good **malware reverse engineering** is straight magic:
+  - Magic that you can learn.
+- Pluralsight has a **malware analysis path**.
+
+## Active Directory and Golden Tickets
+
+- In an **Active Directory-based environment**:
+  - If the attackers had gained **domain admin**:
+  - They likely were able to create what's called a **golden ticket**.
+- Regardless of if you change the **accounts and passwords**:
+  - They can simply generate **valid Kerberos tickets**.
+
+> **Technical clarification:** The transcript says to “roll the domain controllers” so the “KRBTGT value changes.” The precise remediation is to reset the **KRBTGT account password twice**, allowing proper replication and timing between resets. Changing ordinary user passwords or restarting domain controllers does not invalidate golden tickets.
+
+## Lessons Learned and Mitigations
+
+- That's just one example of a number of in-depth concepts under:
+  - **Digital forensics and incident response**.
+- Work with Globomantics to:
+  - **Implement mitigations based on the lessons learned from this intrusion**.
 
 </details>
