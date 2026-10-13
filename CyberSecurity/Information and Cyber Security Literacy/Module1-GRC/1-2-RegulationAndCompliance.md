@@ -306,8 +306,6 @@ Because laws are often general, **regulators, standards, frameworks, and guidanc
 <details>
 <summary>Contractual Requirements</summary>
 
-# Contractual Requirements
-
 ## Contracts Can Affect Information Security
 
 External laws and regulations are **not the only things** that can determine what information security an organization needs.
