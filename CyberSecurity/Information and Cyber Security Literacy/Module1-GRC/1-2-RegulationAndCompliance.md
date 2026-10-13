@@ -440,6 +440,7 @@ The compliance manager, working with the legal team, must understand what securi
 
 <details>
 <summary>Degrees of Compliance</summary>
+
 # Compliance Risk and Interpretation
 
 ## Two Other Aspects of Compliance
